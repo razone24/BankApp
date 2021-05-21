@@ -20,4 +20,9 @@ public class SecurityController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequestDto authenticationRequest) throws Exception {
         return securityService.createAuthenticationToken(authenticationRequest);
     }
+
+    @GetMapping
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok("Hello");
+    }
 }
