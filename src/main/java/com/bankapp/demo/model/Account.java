@@ -1,3 +1,4 @@
+// Copyright (c) 2021 Razvan Balasa
 package com.bankapp.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

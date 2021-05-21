@@ -1,13 +1,12 @@
+// Copyright (c) 2021 Razvan Balasa
 package com.bankapp.demo.service;
 
 import com.bankapp.demo.dto.AccountDto;
 import com.bankapp.demo.dto.DepositDto;
 import com.bankapp.demo.enums.AccountType;
 import com.bankapp.demo.model.Account;
-import com.bankapp.demo.model.Deposit;
 import com.bankapp.demo.model.Transaction;
 import com.bankapp.demo.repository.AccountRepository;
-import com.bankapp.demo.repository.DepositRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,11 +16,9 @@ import java.util.List;
 public class AccountService {
 
     private AccountRepository accountRepository;
-    private DepositRepository depositRepository;
 
-    public AccountService(AccountRepository accountRepository, DepositRepository depositRepository) {
+    public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
-        this.depositRepository = depositRepository;
     }
 
     public Account save(Account account) {
@@ -68,7 +65,9 @@ public class AccountService {
             .build());
         }
         return depositDtos;
+    }
 
-
+    public List<Account> getAllAccountsByUserId(Long id) {
+        return accountRepository.findAllByUserId(id);
     }
 }

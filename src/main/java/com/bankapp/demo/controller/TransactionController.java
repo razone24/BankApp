@@ -4,8 +4,12 @@ import com.bankapp.demo.dto.TransactionDto;
 import com.bankapp.demo.model.Account;
 import com.bankapp.demo.model.Transaction;
 import com.bankapp.demo.service.TransactionService;
+import com.bankapp.demo.utils.AuthenticationManager;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -13,9 +17,11 @@ import java.util.List;
 public class TransactionController {
 
     private TransactionService transactionService;
+    private AuthenticationManager authenticationManager;
 
-    public TransactionController(TransactionService transactionService) {
+    public TransactionController(TransactionService transactionService, AuthenticationManager authenticationManager) {
         this.transactionService = transactionService;
+        this.authenticationManager = authenticationManager;
     }
 
     @RequestMapping(method = RequestMethod.POST,path = "/save")
@@ -24,8 +30,13 @@ public class TransactionController {
     }
 
     @GetMapping(path = "/get")
-    public List<Transaction> findAll() {
-        return transactionService.findAll();
+    public ResponseEntity<List<Transaction>> findAll() {
+
+        if ("admin".equals(authenticationManager.getAuthority())) {
+            return ResponseEntity.ok(transactionService.findAll());
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.emptyList());
+        }
     }
 
     @GetMapping(path = "/getAllByUser")
@@ -35,6 +46,8 @@ public class TransactionController {
 
     @RequestMapping(method = RequestMethod.DELETE, path = "/delete/{transactionId}")
     public void deleteById(@PathVariable Long transactionId) {
-        transactionService.deleteById(transactionId);
+        if ("admin".equals(authenticationManager.getAuthority())) {
+            transactionService.deleteById(transactionId);
+        }
     }
 }

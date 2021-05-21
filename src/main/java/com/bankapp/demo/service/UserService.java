@@ -1,3 +1,4 @@
+// Copyright (c) 2021 Razvan Balasa
 package com.bankapp.demo.service;
 
 import com.bankapp.demo.model.User;
@@ -53,5 +54,9 @@ public class UserService {
                     account.getDebitedTransactions().forEach(transaction -> transactionRepository.delete(transaction));
                 });
         userRepository.delete(user);
+    }
+
+    public User getUserByPhone(String phone) {
+        return userRepository.findUserByPhone(phone);
     }
 }

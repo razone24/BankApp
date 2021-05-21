@@ -1,9 +1,9 @@
+// Copyright (c) 2021 Razvan Balasa
 package com.bankapp.demo.service;
 
 import com.bankapp.demo.dto.TransactionDto;
 import com.bankapp.demo.model.Account;
 import com.bankapp.demo.model.Transaction;
-import com.bankapp.demo.repository.DepositRepository;
 import com.bankapp.demo.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,32 +15,24 @@ import java.util.stream.Collectors;
 public class TransactionService {
 
     private TransactionRepository transactionRepository;
-    private DepositRepository depositRepository;
+    private DepositService depositService;
 
-    public TransactionService(TransactionRepository transactionRepository, DepositRepository depositRepository) {
+    public TransactionService(TransactionRepository transactionRepository, DepositService depositService) {
         this.transactionRepository = transactionRepository;
-        this.depositRepository = depositRepository;
+        this.depositService = depositService;
     }
 
     public Long save(Transaction transaction) {
         Transaction t = transactionRepository.save(transaction);
         if (t.getCreditor().getDeposit() != null) {
-            updateDepositAmount(t.getCreditor());
+            depositService.updateAmount(t.getCreditor().getDeposit().getId(),
+                    t.getCreditor().getDeposit().getAmount() + t.getAmountCreditor());
         }
         if (t.getDebtor().getDeposit() != null) {
-            updateDepositAmount(t.getDebtor());
+            depositService.updateAmount(t.getDebtor().getDeposit().getId(),
+                    t.getDebtor().getDeposit().getAmount() + t.getAmountDebtor());
         }
         return t.getId();
-    }
-
-    private void updateDepositAmount(Account account) {
-        Double inwardVolume = account.getCreditedTransactions().stream()
-                .mapToDouble(Transaction::getAmountCreditor)
-                .sum();
-        Double outwardVolume =account.getDebitedTransactions().stream()
-                .mapToDouble(Transaction::getAmountDebtor)
-                .sum();
-        depositRepository.updateAmountById(account.getDeposit().getId(), inwardVolume - outwardVolume);
     }
 
     public List<Transaction> findAll() {
