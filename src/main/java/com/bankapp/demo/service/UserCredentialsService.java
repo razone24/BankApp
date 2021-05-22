@@ -21,4 +21,8 @@ public class UserCredentialsService {
         userCredentials.setPassword(passwordEncoder.encode(userCredentials.getPassword()));
         userCredentialsRepository.save(userCredentials);
     }
+
+    public void deactivate(Long userId) {
+        userCredentialsRepository.updateUserState(userId);
+    }
 }

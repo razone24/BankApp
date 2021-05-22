@@ -9,7 +9,6 @@ import com.bankapp.demo.service.AccountService;
 import com.bankapp.demo.service.UserCredentialsService;
 import com.bankapp.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -24,8 +23,6 @@ public class CreateAdmin {
     @Autowired
     private UserCredentialsService userCredentialsService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private AccountService accountService;
@@ -51,7 +48,7 @@ public class CreateAdmin {
 
             UserCredentials userCredentials = new UserCredentials();
             userCredentials.setUsername("admin");
-            userCredentials.setPassword(passwordEncoder.encode("1234"));
+            userCredentials.setPassword("1234");
             userCredentials.setAuthority("admin");
             userCredentials.setActive(true);
             userCredentials.setUser(addedUser);

@@ -38,6 +38,13 @@ public class UserController {
         }
     }
 
+    @GetMapping("/delete/account/{id}")
+    public void deleteUserAccount(@PathVariable Long id) {
+        if ("admin".equals(authorityManager.getAuthority())) {
+            userCredentialsService.deactivate(id);
+        }
+    }
+
     @GetMapping(path = "/get")
     public ResponseEntity<List<User>> getAll() {
         if ("admin".equals(authorityManager.getAuthority())) {
