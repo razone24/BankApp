@@ -3,6 +3,7 @@ package com.bankapp.demo.service;
 
 import com.bankapp.demo.dto.AuthenticationRequestDto;
 import com.bankapp.demo.dto.AuthenticationResponseDto;
+import com.bankapp.demo.utils.CustomAuthenticationProvider;
 import com.bankapp.demo.utils.JpaUserDetailsService;
 import com.bankapp.demo.utils.JwtUtil;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +17,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class SecurityService {
 
-    private AuthenticationProvider authenticationProvider;
+    private CustomAuthenticationProvider authenticationProvider;
 
     private JwtUtil jwtUtil;
 
     private JpaUserDetailsService userDetailsService;
 
-    public SecurityService(AuthenticationProvider authenticationProvider, JwtUtil jwtUtil, JpaUserDetailsService userDetailsService) {
+    public SecurityService(CustomAuthenticationProvider authenticationProvider, JwtUtil jwtUtil, JpaUserDetailsService userDetailsService) {
         this.authenticationProvider = authenticationProvider;
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
