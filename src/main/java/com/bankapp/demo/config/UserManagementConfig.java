@@ -15,10 +15,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-
-import java.util.List;
 
 @Configuration
 public class UserManagementConfig extends WebSecurityConfigurerAdapter {
@@ -54,14 +50,5 @@ public class UserManagementConfig extends WebSecurityConfigurerAdapter {
                 exceptionHandling().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        http.cors(c -> {
-            CorsConfigurationSource ccs = r -> {
-                CorsConfiguration cc = new CorsConfiguration();
-                cc.setAllowedOrigins(List.of("*"));
-                cc.setAllowedMethods(List.of("GET","POST", "DELETE"));
-                return cc;
-            };
-            c.configurationSource(ccs);
-        });
     }
 }
