@@ -61,6 +61,7 @@ public class UserManagementConfig extends WebSecurityConfigurerAdapter {
                 cc.setAllowedMethods(List.of("GET","POST", "DELETE"));
                 return cc;
             };
+            c.configurationSource(ccs);
         });
     }
 }
