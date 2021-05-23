@@ -1,6 +1,7 @@
 // Copyright (c) 2021 Razvan Balasa
 package com.bankapp.demo.service;
 
+import com.bankapp.demo.model.User;
 import com.bankapp.demo.model.UserCredentials;
 import com.bankapp.demo.repository.UserCredentialsRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,5 +25,9 @@ public class UserCredentialsService {
 
     public void deactivate(Long userId) {
         userCredentialsRepository.updateUserState(userId);
+    }
+
+    public User getUserByUsername(String username) {
+        return userCredentialsRepository.findUserCredentialsByUsername(username).get().getUser();
     }
 }

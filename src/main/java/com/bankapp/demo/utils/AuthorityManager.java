@@ -22,4 +22,9 @@ public class AuthorityManager {
                 .get(0);
 
     }
+
+    public String getUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
 }

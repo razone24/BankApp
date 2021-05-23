@@ -71,6 +71,15 @@ public class UserController {
         }
     }
 
+    @GetMapping(path = "get/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+        if (authorityManager.getUsername().equals(username)) {
+            return ResponseEntity.ok(userCredentialsService.getUserByUsername(username));
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+    }
+
     @DeleteMapping(path = "delete/{userId}")
     public void delete(@PathVariable Long userId) {
         if ("admin".equals(authorityManager.getAuthority())) {
