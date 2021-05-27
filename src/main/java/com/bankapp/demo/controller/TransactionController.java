@@ -40,7 +40,7 @@ public class TransactionController {
         }
     }
 
-    @GetMapping(path = "/getAllByUser")
+    @PostMapping(path = "/getAllByUser")
     public List<TransactionDto> findAllByAccounts(@RequestBody List<Account> accounts) {
         return transactionService.findAllByAccounts(accounts);
     }
