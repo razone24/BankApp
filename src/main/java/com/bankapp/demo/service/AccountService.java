@@ -58,7 +58,7 @@ public class AccountService {
             .accountNo(account.getAccountNo())
             .type(account.getType())
             .currency(account.getCurrency())
-            .amount(inwardVolume - outwardVolume)
+            .amount(account.getDeposit().getAmount())
             .time(account.getDeposit().getTime())
             .interest(account.getDeposit().getInterest())
             .remainedTime(account.getDeposit().getRemainedTime())
